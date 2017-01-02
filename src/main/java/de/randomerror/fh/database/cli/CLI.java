@@ -32,16 +32,22 @@ public class CLI {
         mainMenu.registerOption("1", "show district statistics", key -> {
             Menu districtMenu = new Menu();
             List<District> districts = connector.getDistricts();
+
             for(int i = 0; i < districts.size(); i++) {
                 districtMenu.registerOption("" + i, districts.get(i).getPlz(), k -> {
                     int num = Integer.parseInt(k);
                     String plz = districts.get(num).getPlz();
                     DistrictInfo info = connector.getDistrictInfo(plz);
-                    out.printf("Anzahl der Lieferer: %d\nAnzahl der abgeschlossenen Lieferungen: %d\nDurschnittliche Bestellsumme: %f",
-                            info.getNumProvider(), info.getNumDeliveries(), info.getAverageOrderValue());
+                    if(info.getNumProvider() == 0) {
+                        out.println("Lieferbezirk ohne Lieferer");
+                    } else {
+                        out.printf("Anzahl der Lieferer: %d\nAnzahl der abgeschlossenen Lieferungen: %d\nDurschnittliche Bestellsumme: %f",
+                                info.getNumProvider(), info.getNumDeliveries(), info.getAverageOrderValue());
+                    }
                     out.flush();
                 });
             }
+            districtMenu.show();
         });
         mainMenu.registerOption("2", "create new provider", key -> {
             System.out.println("number 2");
