@@ -1,8 +1,8 @@
 package de.randomerror.fh.database.db;
 
-import de.randomerror.fh.database.db.Config;
 import de.randomerror.fh.database.entities.District;
 import de.randomerror.fh.database.entities.DistrictInfo;
+import de.randomerror.fh.database.entities.Provider;
 
 import java.sql.*;
 import java.time.format.DateTimeFormatter;
@@ -136,6 +136,56 @@ public class Connector {
             } catch (SQLException e1) {
                 throw new RuntimeException(e1);
             }
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Provider> getProviders() {
+        String query = "SELECT * FROM lieferer;";
+        List<Provider> result = new LinkedList<>();
+
+        try {
+            PreparedStatement s = conn.prepareStatement(query);
+            
+            ResultSet set = s.executeQuery();
+            while(set.next()) {
+                Provider provider = new Provider();
+                provider.setId(set.getInt("idLieferer"));
+                provider.setPasswort(set.getString("passwort"));
+                provider.setAnrede(set.getString("anrede"));
+                provider.setVorname(set.getString("vorname"));
+                provider.setNachname(set.getString("nachname"));
+                provider.setGeburtsdatum(set.getDate("geburtsdatum").toLocalDate());
+                provider.setStrasse(set.getString("strasse"));
+                provider.setWohnort(set.getString("wohnort"));
+                provider.setPlz(set.getString("plz"));
+                provider.setTel(set.getString("tel"));
+                provider.setMail(set.getString("mail"));
+                provider.setBeschreibung(set.getString("beschreibung"));
+                provider.setKontoNr(set.getString("konto_nr"));
+                provider.setBlz(set.getString("blz"));
+                provider.setBankname(set.getString("bankname"));
+                result.add(provider);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return result;
+    }
+    
+    public void setDistrict(Provider provider, District district) {
+        String query = "UPDATE venenumBonus.lieferer_lieferbezirk " +
+                "SET Lieferbezirk_idLieferbezirk=? " +
+                "WHERE Lieferer_idLieferer=?;";
+
+        try {
+            PreparedStatement s = conn.prepareStatement(query);
+            s.setInt(1, district.getId());
+            s.setInt(2, provider.getId());
+            
+            s.executeUpdate();
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
