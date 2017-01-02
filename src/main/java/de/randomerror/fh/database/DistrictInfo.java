@@ -6,9 +6,9 @@ package de.randomerror.fh.database;
 public class DistrictInfo {
     private int numProvider;
     private int numDeliveries;
-    private int averageOrderValue;
+    private double averageOrderValue;
 
-    public DistrictInfo(int numProvider, int numDeliveries, int averageOrderValue) {
+    public DistrictInfo(int numProvider, int numDeliveries, double averageOrderValue) {
         this.numProvider = numProvider;
         this.numDeliveries = numDeliveries;
         this.averageOrderValue = averageOrderValue;
@@ -22,7 +22,7 @@ public class DistrictInfo {
         return numDeliveries;
     }
 
-    public int getAverageOrderValue() {
+    public double getAverageOrderValue() {
         return averageOrderValue;
     }
 }

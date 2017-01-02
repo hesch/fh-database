@@ -14,17 +14,24 @@ public class ConnectorTest {
     @Before
     public void before() {
         connector = new Connector();
-    }
-
-    @Test
-    public void connectorCallsConnectSuccessfully() {
         connector.connect();
     }
 
     @Test
-    public void stuff() {
-        connector.connect();
+    public void returnsTheRightNumberOfProviders() {
         int numProviders = connector.numProvidersInDistrict("39846");
         Assert.assertEquals(2, numProviders);
+
+        numProviders = connector.numProvidersInDistrict("39000");
+        Assert.assertEquals(0, numProviders);
+    }
+
+    @Test
+    public void returnsTheRightAverageOrderSumOfDistrict() {
+        double average = connector.averageOrderValueInDistrict("39850");
+        Assert.assertEquals(39.66666666, average, 0.001);
+
+        average = connector.numProvidersInDistrict("39000");
+        Assert.assertEquals(0, average, 0.001);
     }
 }
