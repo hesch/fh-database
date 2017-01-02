@@ -38,8 +38,7 @@ public class Connector {
                 "Lieferer_lieferbezirk JOIN venenumBonus.lieferbezirk " +
                 "ON Lieferbezirk_idLieferbezirk=idLieferbezirk " +
                 "WHERE plz LIKE ?;";
-        try {
-            PreparedStatement s = conn.prepareStatement(query);
+        try (PreparedStatement s = conn.prepareStatement(query)) {
             s.setString(1, postalCode);
             ResultSet set = s.executeQuery();
             return set.first() ? set.getInt(1) : 0;
@@ -54,8 +53,7 @@ public class Connector {
                 "bestellung JOIN getraenkemarkt " +
                 "ON Getraenkemarkt_idGetraenkemarkt=idGetraenkemarkt " +
                 "WHERE plz LIKE ? AND bestellstatus LIKE 'abgeschlossen';";
-        try {
-            PreparedStatement s = conn.prepareStatement(query);
+        try (PreparedStatement s = conn.prepareStatement(query)) {
             s.setString(1, postalCode);
             ResultSet set = s.executeQuery();
             return set.first() ? set.getInt(1) : 0;
@@ -76,8 +74,7 @@ public class Connector {
                 "JOIN getraenkemarkt " +
                 "ON Getraenkemarkt_idGetraenkemarkt = idGetraenkemarkt " +
                 "WHERE plz LIKE ?) a;";
-        try {
-            PreparedStatement s = conn.prepareStatement(query);
+        try (PreparedStatement s = conn.prepareStatement(query)) {
             s.setString(1, postalCode);
             ResultSet set = s.executeQuery();
             return set.first() ? set.getDouble(1) : 0;
@@ -90,10 +87,9 @@ public class Connector {
         String query = "SELECT * FROM lieferbezirk;";
         List<District> result = new LinkedList<>();
 
-        try {
-            PreparedStatement s = conn.prepareStatement(query);
+        try (PreparedStatement s = conn.prepareStatement(query)) {
             ResultSet set = s.executeQuery();
-            while(set.next()) {
+            while (set.next()) {
                 result.add(new District(set.getInt(1), set.getString(2)));
             }
         } catch (SQLException e) {
@@ -110,8 +106,7 @@ public class Connector {
 
         String providerQuery = "INSERT INTO lieferer (idLieferer, passwort, anrede, vorname, nachname, geburtsdatum, strasse, wohnort, plz, tel, mail, beschreibung, konto_nr, blz, bankname) " +
                 "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-        try {
-            PreparedStatement s = conn.prepareStatement(providerQuery);
+        try (PreparedStatement s = conn.prepareStatement(providerQuery)) {
             s.setInt(1, id);
             s.setString(2, "hafdfhjka");
             s.setString(3, "frau");
@@ -140,14 +135,12 @@ public class Connector {
     }
 
     public List<Provider> getProviders() {
-        String query = "SELECT * FROM lieferer;";
+        String query = "SELECT * FROM venenumbonus.lieferer;";
         List<Provider> result = new LinkedList<>();
 
-        try {
-            PreparedStatement s = conn.prepareStatement(query);
-            
+        try (PreparedStatement s = conn.prepareStatement(query)) {
             ResultSet set = s.executeQuery();
-            while(set.next()) {
+            while (set.next()) {
                 Provider provider = new Provider();
                 provider.setId(set.getInt("idLieferer"));
                 provider.setPasswort(set.getString("passwort"));
@@ -172,18 +165,27 @@ public class Connector {
 
         return result;
     }
-    
+
     public void setDistrict(Provider provider, District district) {
-        String query = "UPDATE venenumBonus.lieferer_lieferbezirk " +
+        String query = "UPDATE venenumbonus.lieferer_lieferbezirk " +
                 "SET Lieferbezirk_idLieferbezirk=? " +
                 "WHERE Lieferer_idLieferer=?;";
 
-        try {
-            PreparedStatement s = conn.prepareStatement(query);
+        try (PreparedStatement s = conn.prepareStatement(query)) {
             s.setInt(1, district.getId());
             s.setInt(2, provider.getId());
-            
+
             s.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void createProviderProcedure(int id, String vorname) {
+        try (CallableStatement stmt = conn.prepareCall("CALL venenumbonus.createProviderProc (?,?)")) {
+            stmt.setInt(1, id);
+            stmt.setString(2, vorname);
+            stmt.executeQuery();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

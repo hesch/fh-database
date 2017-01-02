@@ -22,7 +22,7 @@ public class Menu {
     }
 
     public void show() {
-        Optional<Option> opt = null;
+        Optional<Option> opt;
         do {
             display();
             String input = CLI.in.next();
