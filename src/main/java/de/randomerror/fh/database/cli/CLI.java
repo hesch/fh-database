@@ -75,7 +75,7 @@ public class CLI {
         for (int j = 0; j < list.size(); j++) {
             T t = list.get(j);
 
-            choiceMenu.registerOption("" + j, description.apply(t), () -> choice.accept(t));
+            choiceMenu.registerOption("" + (j + 1), description.apply(t), () -> choice.accept(t));
         }
 
         choiceMenu.show();
