@@ -5,6 +5,8 @@ import de.randomerror.fh.database.entities.District;
 import de.randomerror.fh.database.entities.DistrictInfo;
 
 import java.sql.*;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -102,8 +104,39 @@ public class Connector {
         return result;
     }
 
+
     public void createProvider(int id, String firstName) {
         String lastName = "SchmidtKaiser";
+        String banking = "7097650";
 
+        String query = "INSERT INTO lieferer (idLieferer, passwort, anrede, vorname, nachname, geburtsdatum, strasse, wohnort, plz, tel, mail, beschreibung, konto_nr, blz, bankname) " +
+                "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        try {
+            PreparedStatement s = conn.prepareStatement(query);
+            s.setInt(1, id);
+            s.setString(2, "hafdfhjka");
+            s.setString(3, "frau");
+            s.setString(4, firstName);
+            s.setString(5, lastName);
+            s.setDate(6, new java.sql.Date(new Date().getTime()));
+            s.setString(7, "jfdsjdsjka");
+            s.setString(8, "hafdfhjka");
+            s.setString(9, "39000");
+            s.setString(10, "2935899835");
+            s.setString(11, "test@test");
+            s.setString(12, "ich bin toll");
+            s.setString(13, banking);
+            s.setString(14, "49050101");
+            s.setString(15, "bingo bank");
+            s.execute();
+            conn.commit();
+        } catch (SQLException e) {
+            try {
+                conn.rollback();
+            } catch (SQLException e1) {
+                throw new RuntimeException(e1);
+            }
+            throw new RuntimeException(e);
+        }
     }
 }
