@@ -34,10 +34,10 @@ public class Connector {
 
     public int numProvidersInDistrict(String postalCode) {
         String query = "SELECT COUNT(1) AS anzahl " +
-                "FROM " +
-                "Lieferer_lieferbezirk JOIN venenumBonus.lieferbezirk " +
+                "FROM venenumbonus.lieferer_lieferbezirk JOIN venenumbonus.lieferbezirk " +
                 "ON Lieferbezirk_idLieferbezirk=idLieferbezirk " +
                 "WHERE plz LIKE ?;";
+
         try (PreparedStatement s = conn.prepareStatement(query)) {
             s.setString(1, postalCode);
             ResultSet set = s.executeQuery();
@@ -49,10 +49,11 @@ public class Connector {
 
     public int numClosedOrdersInDistrict(String postalCode) {
         String query = "SELECT COUNT(1) AS anzahl " +
-                "FROM " +
-                "bestellung JOIN getraenkemarkt " +
-                "ON Getraenkemarkt_idGetraenkemarkt=idGetraenkemarkt " +
-                "WHERE plz LIKE ? AND bestellstatus LIKE 'abgeschlossen';";
+                "FROM venenumbonus.bestellung " +
+                "JOIN venenumbonus.getraenkemarkt ON Getraenkemarkt_idGetraenkemarkt=idGetraenkemarkt " +
+                "WHERE plz LIKE ? " +
+                "AND bestellstatus LIKE 'abgeschlossen';";
+
         try (PreparedStatement s = conn.prepareStatement(query)) {
             s.setString(1, postalCode);
             ResultSet set = s.executeQuery();
@@ -66,14 +67,11 @@ public class Connector {
         String query = "SELECT AVG(gesamtpreis) AS average " +
                 "FROM " +
                 "(SELECT (1-reduktion)*preis*anzahl AS gesamtpreis " +
-                "FROM " +
-                "bestellposition JOIN artikel " +
-                "ON Artikel_idArtikel = idArtikel " +
-                "JOIN bestellung " +
-                "ON Bestellung_idBestellung = idBestellung " +
-                "JOIN getraenkemarkt " +
-                "ON Getraenkemarkt_idGetraenkemarkt = idGetraenkemarkt " +
-                "WHERE plz LIKE ?) a;";
+                "FROM venenumbonus.bestellposition " +
+                "JOIN venenumbonus.artikel ON Artikel_idArtikel = idArtikel " +
+                "JOIN venenumbonus.bestellung ON Bestellung_idBestellung = idBestellung " +
+                "JOIN venenumbonus.getraenkemarkt ON Getraenkemarkt_idGetraenkemarkt = idGetraenkemarkt " +
+                "WHERE plz LIKE ?);";
         try (PreparedStatement s = conn.prepareStatement(query)) {
             s.setString(1, postalCode);
             ResultSet set = s.executeQuery();
@@ -104,7 +102,7 @@ public class Connector {
         String lastName = "SchmidtKaiser";
         String banking = "7097650";
 
-        String providerQuery = "INSERT INTO lieferer (idLieferer, passwort, anrede, vorname, nachname, geburtsdatum, strasse, wohnort, plz, tel, mail, beschreibung, konto_nr, blz, bankname) " +
+        String providerQuery = "INSERT INTO venenumbonus.lieferer (idLieferer, passwort, anrede, vorname, nachname, geburtsdatum, strasse, wohnort, plz, tel, mail, beschreibung, konto_nr, blz, bankname) " +
                 "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         try (PreparedStatement s = conn.prepareStatement(providerQuery)) {
             s.setInt(1, id);
@@ -182,7 +180,9 @@ public class Connector {
     }
 
     public void createProviderProcedure(int id, String vorname) {
-        try (CallableStatement stmt = conn.prepareCall("CALL venenumbonus.createProviderProc (?,?)")) {
+        String query = "CALL venenumbonus.createProviderProc (?,?)";
+        
+        try (CallableStatement stmt = conn.prepareCall(query)) {
             stmt.setInt(1, id);
             stmt.setString(2, vorname);
             stmt.executeQuery();
