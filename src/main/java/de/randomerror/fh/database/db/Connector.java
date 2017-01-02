@@ -1,9 +1,12 @@
 package de.randomerror.fh.database.db;
 
 import de.randomerror.fh.database.db.Config;
+import de.randomerror.fh.database.entities.District;
 import de.randomerror.fh.database.entities.DistrictInfo;
 
 import java.sql.*;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by Henri on 02.01.17.
@@ -80,5 +83,27 @@ public class Connector {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public List<District> getDistricts() {
+        String query = "SELECT * FROM lieferbezirk;";
+        List<District> result = new LinkedList<>();
+
+        try {
+            PreparedStatement s = conn.prepareStatement(query);
+            ResultSet set = s.executeQuery();
+            while(set.next()) {
+                result.add(new District(set.getInt(1), set.getString(2)));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return result;
+    }
+
+    public void createProvider(int id, String firstName) {
+        String lastName = "Schmidt";
+
     }
 }
