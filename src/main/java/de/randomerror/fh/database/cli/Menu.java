@@ -15,6 +15,8 @@ public class Menu {
     private List<Option> menuOptions = new LinkedList<>();
 
     public void registerOption(String key, String description, Runnable listener) {
+        if(menuOptions.stream().anyMatch(option -> option.key.equals(key)))
+            throw new IllegalArgumentException("Key " + key + " is duplicate");
         menuOptions.add(new Option(key, description, listener));
     }
 
