@@ -1,4 +1,4 @@
-package de.randomerror.fh.database;
+package de.randomerror.fh.database.entities;
 
 /**
  * Created by Henri on 02.01.17.

@@ -1,4 +1,7 @@
-package de.randomerror.fh.database;
+package de.randomerror.fh.database.db;
+
+import de.randomerror.fh.database.db.Config;
+import de.randomerror.fh.database.entities.DistrictInfo;
 
 import java.sql.*;
 

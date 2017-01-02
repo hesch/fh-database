@@ -1,5 +1,6 @@
 package de.randomerror.fh.database;
 
+import de.randomerror.fh.database.db.Connector;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
