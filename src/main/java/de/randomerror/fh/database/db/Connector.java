@@ -109,10 +109,10 @@ public class Connector {
         String lastName = "SchmidtKaiser";
         String banking = "7097650";
 
-        String query = "INSERT INTO lieferer (idLieferer, passwort, anrede, vorname, nachname, geburtsdatum, strasse, wohnort, plz, tel, mail, beschreibung, konto_nr, blz, bankname) " +
+        String providerQuery = "INSERT INTO lieferer (idLieferer, passwort, anrede, vorname, nachname, geburtsdatum, strasse, wohnort, plz, tel, mail, beschreibung, konto_nr, blz, bankname) " +
                 "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         try {
-            PreparedStatement s = conn.prepareStatement(query);
+            PreparedStatement s = conn.prepareStatement(providerQuery);
             s.setInt(1, id);
             s.setString(2, "hafdfhjka");
             s.setString(3, "frau");

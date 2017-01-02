@@ -46,8 +46,13 @@ public class CLI {
             });
         });
         mainMenu.registerOption("2", "create new provider", () -> {
-            System.out.println("number 2");
-            out.println(2);
+            out.println("id? ");
+            out.flush();
+            int id = in.nextInt();
+            out.println("name? ");
+            out.flush();
+            String name = in.next();
+            connector.createProvider(id, name);
         });
         mainMenu.registerOption("3", "change district of provider", () -> {
             System.out.println("number 3");
