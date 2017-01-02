@@ -5,7 +5,6 @@ import de.randomerror.fh.database.entities.DistrictInfo;
 import de.randomerror.fh.database.entities.Provider;
 
 import java.sql.*;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;

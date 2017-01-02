@@ -36,7 +36,7 @@ public class CLI {
             choice(connector.getDistricts(), District::getPlz, district -> {
                 String plz = district.getPlz();
                 DistrictInfo info = connector.getDistrictInfo(plz);
-                if(info.getNumProvider() == 0) {
+                if (info.getNumProvider() == 0) {
                     out.println("Lieferbezirk ohne Lieferer");
                 } else {
                     out.printf("Anzahl der Lieferer: %d\nAnzahl der abgeschlossenen Lieferungen: %d\nDurschnittliche Bestellsumme: %f",
@@ -55,12 +55,13 @@ public class CLI {
             connector.createProvider(id, name);
         });
         mainMenu.registerOption("3", "change district of provider", () -> {
-            System.out.println("number 3");
-            out.println(3);
+            out.println("Zu ändernder Lieferer");
 
             choice(connector.getProviders(), Provider::getNachname, provider -> {
+                out.println("Ändere Distrikt zu");
                 choice(connector.getDistricts(), District::getPlz, district -> {
                     connector.setDistrict(provider, district);
+                    out.printf("Distrikt von %s zu %s geändert%n", provider.getNachname(), district.getPlz());
                 });
             });
         });
