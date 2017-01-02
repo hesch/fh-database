@@ -7,7 +7,7 @@ import java.sql.*;
  */
 public class Connector {
 
-    Connection conn;
+    private Connection conn;
 
     public void connect() {
         try {
