@@ -21,7 +21,6 @@ public class CLI {
     public static Connector connector = new Connector();
 
     public static void main(String[] args) {
-
         out.println("Welcome to this very Basic Database Application!\n");
         out.println("Created By:\nJannis Kaiser - 7097566\nHenri Schmidt - 7097650\n");
         connector.connect();
