@@ -28,13 +28,14 @@ CREATE PROCEDURE `venenumbonus`.`createProviderProc`
       (bezirk, id, CURDATE(), 10.0);
     
 #     exercise 2c
-    DECLARE market_id_cursor CURSOR FOR SELECT market.id FROM getraenkemarkt WHERE getraenkemarkt.plz = plz;
+    DECLARE market_id_cursor CURSOR FOR SELECT getraenkemarkt.idGetraenkemarkt FROM getraenkemarkt WHERE getraenkemarkt.plz = plz;
     
     DECLARE done BOOL DEFAULT FALSE;
     DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET done=TRUE;
     
     OPEN market_id_cursor;
     
+    DECLARE market_id INT;
     WHILE NOT done DO 
       FETCH market_id_cursor INTO market_id;
       INSERT INTO getraenkemarkt_has_lieferer VALUES (
