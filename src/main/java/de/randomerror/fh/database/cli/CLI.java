@@ -52,6 +52,7 @@ public class CLI {
             out.println("name? ");
             out.flush();
             String name = in.next();
+//            connector.createProvider(id, name);
             connector.createProviderProcedure(id, name);
         });
         mainMenu.registerOption("3", "change district of provider", () -> {
@@ -60,7 +61,8 @@ public class CLI {
             choice(connector.getProviders(), Provider::getNachname, provider -> {
                 out.printf("change district of '%s' to", provider.getNachname());
                 choice(connector.getDistricts(), District::getPlz, district -> {
-                    connector.setDistrict(provider, district);
+//                    connector.updateDistrict(provider.getId(), district.getId());
+                    connector.updateDistrictProcedure(provider.getId(), district.getId());
                     out.printf("district of '%s' changed to '%s'%n", provider.getNachname(), district.getPlz());
                 });
             });

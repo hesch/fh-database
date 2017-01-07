@@ -19,7 +19,6 @@ public class Connector {
     public void connect() {
         try {
             conn = DriverManager.getConnection(Config.URL + Config.DATABASE, Config.USER, Config.PASSWORD);
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -164,14 +163,14 @@ public class Connector {
         return result;
     }
 
-    public void setDistrict(Provider provider, District district) {
+    public void updateDistrict(int providerId, int districtId) {
         String query = "UPDATE venenumbonus.lieferer_lieferbezirk " +
                 "SET Lieferbezirk_idLieferbezirk=? " +
                 "WHERE Lieferer_idLieferer=?;";
 
         try (PreparedStatement s = conn.prepareStatement(query)) {
-            s.setInt(1, district.getId());
-            s.setInt(2, provider.getId());
+            s.setInt(1, districtId);
+            s.setInt(2, providerId);
 
             s.executeUpdate();
         } catch (SQLException e) {
@@ -185,6 +184,20 @@ public class Connector {
         try (CallableStatement stmt = conn.prepareCall(query)) {
             stmt.setInt(1, id);
             stmt.setString(2, vorname);
+            
+            stmt.executeQuery();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    public void updateDistrictProcedure(int providerId, int districtId) {
+        String query = "CALL venenumbonus.changeDistrictOfProvider (?,?)";
+
+        try (CallableStatement stmt = conn.prepareCall(query)) {
+            stmt.setInt(1, providerId);
+            stmt.setInt(2, districtId);
+            
             stmt.executeQuery();
         } catch (SQLException e) {
             throw new RuntimeException(e);
