@@ -5,17 +5,17 @@ CREATE PROCEDURE `venenumbonus`.`createProviderProc`
   (IN id INTEGER, IN vorname VARCHAR(45))
   BEGIN
     DECLARE bezirk INT(10);
-    
+    DECLARE done BOOL DEFAULT FALSE;
+    DECLARE market_id INT;
+
     DECLARE market_id_cursor CURSOR FOR SELECT getraenkemarkt.idGetraenkemarkt FROM getraenkemarkt WHERE getraenkemarkt.plz IN (
       SELECT getraenkemarkt.plz
       FROM getraenkemarkt
       WHERE name = 'Top'
     );
 
-    DECLARE done BOOL DEFAULT FALSE;
     DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET done=TRUE;
-    
-    DECLARE market_id INT;
+
 
     SELECT lieferbezirk.idLieferbezirk
     INTO bezirk
@@ -41,10 +41,12 @@ CREATE PROCEDURE `venenumbonus`.`createProviderProc`
     
     WHILE NOT done DO 
       FETCH market_id_cursor INTO market_id;
-      INSERT INTO getraenkemarkt_has_lieferer VALUES (
-        id,
-        market_id
-      );
+      IF NOT done THEN
+        INSERT INTO getraenkemarkt_has_lieferer VALUES (
+          id,
+          market_id
+        );
+      END IF;
     END WHILE;
     
     CLOSE market_id_cursor;
