@@ -64,15 +64,13 @@ public class Connector {
     }
 
     public double averageOrderValueInDistrict(String postalCode) {
-        String query = "SELECT AVG(gesamtpreis) AS average " +
-                "FROM " +
-                "(SELECT (1-reduktion)*preis*anzahl AS gesamtpreis " +
+        String query = "SELECT AVG((1-reduktion)*preis*anzahl) AS average " +
                 "FROM venenumbonus.bestellposition " +
                 "JOIN venenumbonus.artikel ON Artikel_idArtikel = idArtikel " +
                 "JOIN venenumbonus.bestellung ON Bestellung_idBestellung = idBestellung " +
                 "JOIN venenumbonus.getraenkemarkt ON Getraenkemarkt_idGetraenkemarkt = idGetraenkemarkt " +
                 "WHERE plz LIKE ? " +
-                "AND bestellung.bestellstatus LIKE 'abgeschlossen') a;";
+                "AND bestellung.bestellstatus LIKE 'abgeschlossen';";
         try (PreparedStatement s = conn.prepareStatement(query)) {
             s.setString(1, postalCode);
             ResultSet set = s.executeQuery();
