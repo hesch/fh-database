@@ -34,14 +34,13 @@ public class CLI {
         Menu mainMenu = new Menu();
 
         mainMenu.registerOption("1", "show district statistics", () -> {
-            Menu districtMenu = new Menu();
             choice(connector.getDistricts(), District::getPlz, district -> {
                 String plz = district.getPlz();
                 DistrictInfo info = connector.getDistrictInfo(plz);
                 if (info.getNumProvider() == 0) {
-                    out.println("Lieferbezirk ohne Lieferer");
+                    out.println("district has no provider");
                 } else {
-                    out.printf("Anzahl der Lieferer: %d\nAnzahl der abgeschlossenen Lieferungen: %d\nDurschnittliche Bestellsumme: %f",
+                    out.printf("number of providers: %d\nnumber of completed deliveries: %d\naverage order value: %f",
                             info.getNumProvider(), info.getNumDeliveries(), info.getAverageOrderValue());
                 }
                 out.flush();
