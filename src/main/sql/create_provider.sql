@@ -1,5 +1,6 @@
 DROP PROCEDURE IF EXISTS `venenumbonus`.`createProviderProc`;
 
+#     exercise 2b
 CREATE PROCEDURE `venenumbonus`.`createProviderProc`
   (IN id INTEGER, IN vorname VARCHAR(45))
   BEGIN
@@ -25,4 +26,22 @@ CREATE PROCEDURE `venenumbonus`.`createProviderProc`
     INSERT INTO lieferer_lieferbezirk (Lieferbezirk_idLieferbezirk, Lieferer_idLieferer, Lieferzeit, Lieferpreis)
     VALUES
       (bezirk, id, CURDATE(), 10.0);
+    
+#     exercise 2c
+    DECLARE market_id_cursor CURSOR FOR SELECT market.id FROM getraenkemarkt WHERE getraenkemarkt.plz = plz;
+    
+    DECLARE done BOOL DEFAULT FALSE;
+    DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET done=TRUE;
+    
+    OPEN market_id_cursor;
+    
+    WHILE NOT done DO 
+      FETCH market_id_cursor INTO market_id;
+      INSERT INTO getraenkemarkt_has_lieferer VALUES (
+        id,
+        market_id
+      );
+    END WHILE;
+    
+    CLOSE market_id_cursor;
   END;
