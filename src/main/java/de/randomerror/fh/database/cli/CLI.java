@@ -40,7 +40,7 @@ public class CLI {
                 if (info.getNumProvider() == 0) {
                     out.println("district has no provider");
                 } else {
-                    out.printf("number of providers: %d\nnumber of completed deliveries: %d\naverage order value: %f",
+                    out.printf("number of providers: %d%nnumber of completed deliveries: %d%naverage order value: %f",
                             info.getNumProvider(), info.getNumDeliveries(), info.getAverageOrderValue());
                 }
                 out.flush();
