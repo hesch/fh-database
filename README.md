@@ -44,11 +44,10 @@ Das Projekt hat folgende Abhängigkeiten:
 
 ## GitHub
 
-Das Projekt finden Sie auch in GitHub unter
+Das Projekt finden Sie auch in GitHub unter:
 
-```
 https://github.com/hesch/fh-database
-```
+
 
 ## Autoren
 
