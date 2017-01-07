@@ -11,7 +11,7 @@ gradle shadowJar
 ```
 
 Die gebaute Jar liegt dann in build/libs.
-Eine von vorgebaute version liegt auch schon im Projektverzeichnis
+Eine vorgebaute Version liegt auch schon im Projektverzeichnis
 
 ## Ausführen
 
@@ -21,7 +21,10 @@ java -jar fh-database-*.jar
 ```
 ausgeführt werden.
 Die MySQL Datenbank muss dabei auf localhost:3306 laufen und einen root login ohne passwort zulassen.
-Diese Daten können in der Datei src/main/java/de/randomerror/fh/database/db/Config.java geändert werden.
+Diese Daten können in der Datei 
+> src/main/java/de/randomerror/fh/database/db/Config.java
+
+geändert werden.
 
 ## Abhängigkeiten
 
@@ -38,3 +41,11 @@ Das Projekt hat folgende Abhängigkeiten:
 #### Testen
 
 - jUnit: http://junit.org/junit4/
+
+## GitHub
+
+Das Projekt finden Sie auch in GitHub unter
+
+```
+https://github.com/hesch/fh-database
+```
