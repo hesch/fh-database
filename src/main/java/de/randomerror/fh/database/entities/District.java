@@ -4,7 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
- * Created by Henri on 02.01.17.
+ * Class for representing a database district
+ * it is the equivalent for 'lieferbezirk'
  */
 @Data
 @AllArgsConstructor

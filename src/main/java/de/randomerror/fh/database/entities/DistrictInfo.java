@@ -1,7 +1,7 @@
 package de.randomerror.fh.database.entities;
 
 /**
- * Created by Henri on 02.01.17.
+ * Class for representing metadata of a district
  */
 public class DistrictInfo {
     private int numProvider;

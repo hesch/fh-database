@@ -20,6 +20,10 @@ public class CLI {
     public static Scanner in = new Scanner(System.in);
     public static Connector connector = new Connector();
 
+    /**
+     * Connects to the database and thes shows the main menu
+     * @param args call arguments
+     */
     public static void main(String[] args) {
         out.println("Welcome to this very Basic Database Application!\n");
         out.println("Created By:\nJannis Kaiser - 7097566\nHenri Schmidt - 7097650\n");
@@ -29,6 +33,10 @@ public class CLI {
     }
 
     // exercise 1b
+
+    /**
+     * Shows the main menu for selecting what to do
+     */
     private static void mainMenu() {
         Menu mainMenu = new Menu();
 
@@ -71,6 +79,17 @@ public class CLI {
         mainMenu.show();
     }
 
+    /**
+     * Creates a console menu that gives the user a choice between the options provided
+     * The description function is used to extract the shown description for each object in the list
+     * when the user has made a choice the choice Consumer is called with the chosen item
+     * if the user made an invalid choice he will be prompted again
+     * 
+     * @param list The list of options to choose from
+     * @param description A function for extracting the description from an item
+     * @param choice The callback function for the selected item
+     * @param <T> The type of data to choose from
+     */
     private static <T> void choice(List<T> list, Function<T, String> description, Consumer<T> choice) {
         Menu choiceMenu = new Menu();
 

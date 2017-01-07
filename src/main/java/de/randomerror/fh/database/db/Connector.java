@@ -16,6 +16,9 @@ public class Connector {
 
     private Connection conn;
 
+    /**
+     * Connects to the database with the data provided from the configuration class {@link Config}
+     */
     public void connect() {
         try {
             conn = DriverManager.getConnection(Config.URL + Config.DATABASE, Config.USER, Config.PASSWORD);

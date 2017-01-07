@@ -5,7 +5,8 @@ import lombok.Data;
 import java.time.LocalDate;
 
 /**
- * Created by Jannis on 02.01.17.
+ * Class for representing a database provider
+ * it is the equivalent for 'lieferer'
  */
 @Data
 public class Provider {
