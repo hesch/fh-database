@@ -59,7 +59,7 @@ public class CLI {
             out.println("provider to change");
 
             choice(connector.getProviders(), Provider::getNachname, provider -> {
-                out.printf("change district of '%s' to", provider.getNachname());
+                out.printf("change district of '%s' to%n", provider.getNachname());
                 choice(connector.getDistricts(), District::getPlz, district -> {
 //                    connector.updateDistrict(provider.getId(), district.getId());
                     connector.updateDistrictProcedure(provider.getId(), district.getId());
