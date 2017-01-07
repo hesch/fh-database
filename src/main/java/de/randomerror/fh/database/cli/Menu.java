@@ -17,15 +17,16 @@ public class Menu {
      * @param listener The callback function for when this option was selected
      */
     public void registerOption(String key, String description, Runnable listener) {
-        if(menuOptions.stream().anyMatch(option -> option.key.equals(key)))
-            throw new IllegalArgumentException("Key " + key + " is duplicate");
-        menuOptions.add(new Option(key, description, listener));
+        if(menuOptions.stream().anyMatch(option -> option.key.equals(key))) // check if the key already exist
+            throw new IllegalArgumentException("Key " + key + " is duplicate"); // if so throw an ecxetion
+        menuOptions.add(new Option(key, description, listener)); // otherwise register it as a new option
     }
 
     /**
      * Prints the options to the console
      */
     public void display() {
+        // for each registered option print it on the console
         menuOptions.forEach(option -> CLI.out.format("(%s) %s\n", option.key, option.description));
         CLI.out.flush();
     }
@@ -37,21 +38,21 @@ public class Menu {
     public void show() {
         Optional<Option> opt;
         do {
-            display();
-            String input = CLI.in.next();
-            opt = menuOptions.stream().filter(o -> o.key.equals(input)).findFirst();
-        } while(!opt.isPresent());
+            display(); // print all registerd options
+            String input = CLI.in.next(); // get the user input
+            opt = menuOptions.stream().filter(o -> o.key.equals(input)).findFirst(); // look if it matches any registerd option
+        } while(!opt.isPresent()); // if it does not mathch try again
 
-        opt.get().delegate.run();
+        opt.get().delegate.run(); // run the handler for the option
     }
 
     /**
      * Class for representing the options listed in the menu
      */
     private class Option {
-        public String key;
-        public String description;
-        public Runnable delegate;
+        public String key; // the required user input for this option
+        public String description; // the shown description
+        public Runnable delegate; // the action to perform when selected
 
         public Option(String key, String description, Runnable delegate) {
             this.key = key;

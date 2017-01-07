@@ -1,6 +1,6 @@
 DROP PROCEDURE IF EXISTS `venenumBonus`.`changeDistrictOfProvider`;
 
-# exercise 2a
+# exercise 2a / 2c
 CREATE PROCEDURE `venenumBonus`.`changeDistrictOfProvider`
   (IN providerId INT, IN districtId INT)
 BEGIN

@@ -1,6 +1,6 @@
 DROP PROCEDURE IF EXISTS `venenumbonus`.`createProviderProc`;
 
-#     exercise 2b
+# exercise 2b / 2c
 CREATE PROCEDURE `venenumbonus`.`createProviderProc`
   (IN id INTEGER, IN vorname VARCHAR(45))
   BEGIN

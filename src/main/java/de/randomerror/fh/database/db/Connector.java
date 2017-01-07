@@ -21,6 +21,7 @@ public class Connector {
      */
     public void connect() {
         try {
+            // initiate the connection with the database
             conn = DriverManager.getConnection(Config.URL + Config.DATABASE, Config.USER, Config.PASSWORD);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -29,27 +30,31 @@ public class Connector {
 
     // exercise 1a
     public DistrictInfo getDistrictInfo(String postalCode) {
+        // build the district information object
         return new DistrictInfo(
                 numProvidersInDistrict(postalCode),
                 numClosedOrdersInDistrict(postalCode),
                 averageOrderValueInDistrict(postalCode));
     }
 
+    // exercise 1a
     public int numProvidersInDistrict(String postalCode) {
+        // construct the query
         String query = "SELECT COUNT(1) AS anzahl " +
                 "FROM venenumbonus.lieferer_lieferbezirk JOIN venenumbonus.lieferbezirk " +
                 "ON Lieferbezirk_idLieferbezirk=idLieferbezirk " +
                 "WHERE plz LIKE ?;";
 
-        try (PreparedStatement s = conn.prepareStatement(query)) {
-            s.setString(1, postalCode);
-            ResultSet set = s.executeQuery();
-            return set.first() ? set.getInt(1) : 0;
+        try (PreparedStatement s = conn.prepareStatement(query)) { // build a PreparedStatement from the query
+            s.setString(1, postalCode); // set the parameters
+            ResultSet set = s.executeQuery(); // get the results
+            return set.first() ? set.getInt(1) : 0; // process the result
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
+    // exercise 1a
     public int numClosedOrdersInDistrict(String postalCode) {
         String query = "SELECT COUNT(1) AS anzahl " +
                 "FROM venenumbonus.bestellung " +
@@ -66,6 +71,7 @@ public class Connector {
         }
     }
 
+    // exercise 1a
     public double averageOrderValueInDistrict(String postalCode) {
         String query = "SELECT AVG((1-reduktion)*preis*anzahl) AS average " +
                 "FROM venenumbonus.bestellposition " +
@@ -84,13 +90,14 @@ public class Connector {
     }
 
     public List<District> getDistricts() {
+        // build the query
         String query = "SELECT * FROM lieferbezirk;";
-        List<District> result = new LinkedList<>();
+        List<District> result = new LinkedList<>(); // initialize the result list
 
-        try (PreparedStatement s = conn.prepareStatement(query)) {
-            ResultSet set = s.executeQuery();
-            while (set.next()) {
-                result.add(new District(set.getInt(1), set.getString(2)));
+        try (PreparedStatement s = conn.prepareStatement(query)) { // build a PreparedStatement from the query
+            ResultSet set = s.executeQuery(); // run the query
+            while (set.next()) { // for each item in the resultset
+                result.add(new District(set.getInt(1), set.getString(2))); // get the data nad add it to the result list
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -99,6 +106,7 @@ public class Connector {
         return result;
     }
 
+    // exercise 1b
     public void createProvider(int id, String firstName) {
         String lastName = "SchmidtKaiser";
         String banking = "7097650";
@@ -165,6 +173,7 @@ public class Connector {
         return result;
     }
 
+    // exercise 1b
     public void updateDistrict(int providerId, int districtId) {
         String query = "UPDATE venenumbonus.lieferer_lieferbezirk " +
                 "SET Lieferbezirk_idLieferbezirk=? " +
@@ -180,19 +189,21 @@ public class Connector {
         }
     }
 
+    // exercise 2b / 2c
     public void createProviderProcedure(int id, String vorname) {
         String query = "CALL venenumbonus.createProviderProc (?,?)";
         
-        try (CallableStatement stmt = conn.prepareCall(query)) {
-            stmt.setInt(1, id);
+        try (CallableStatement stmt = conn.prepareCall(query)) { // build a CallableStatement from th query
+            stmt.setInt(1, id); // set the procedure parameters
             stmt.setString(2, vorname);
             
-            stmt.executeQuery();
+            stmt.executeQuery(); // execute the procedure
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-    
+
+    // exercise 2a / 2c
     public void updateDistrictProcedure(int providerId, int districtId) {
         String query = "CALL venenumbonus.changeDistrictOfProvider (?,?)";
 

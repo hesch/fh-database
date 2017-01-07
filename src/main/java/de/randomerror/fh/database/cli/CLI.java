@@ -27,56 +27,66 @@ public class CLI {
     public static void main(String[] args) {
         out.println("Welcome to this very Basic Database Application!\n");
         out.println("Created By:\nJannis Kaiser - 7097566\nHenri Schmidt - 7097650\n");
-        connector.connect();
+        connector.connect(); // initiate the database connection
 
-        mainMenu();
+        mainMenu(); // show the main menu
     }
 
     // exercise 1b
-
     /**
      * Shows the main menu for selecting what to do
      */
     private static void mainMenu() {
         Menu mainMenu = new Menu();
 
-        mainMenu.registerOption("1", "show district statistics", () -> {
-            choice(connector.getDistricts(), District::getPlz, district -> {
+        // exercise 1a
+        mainMenu.registerOption("1", "show district statistics", () -> { // add statistics option to main menu
+            // when the option 1 is selected
+            choice(connector.getDistricts(), District::getPlz, district -> { // load the districts and tet the user chose one
                 String plz = district.getPlz();
-                DistrictInfo info = connector.getDistrictInfo(plz);
-                if (info.getNumProvider() == 0) {
+                DistrictInfo info = connector.getDistrictInfo(plz); // get the required information for the district
+                if (info.getNumProvider() == 0) { // if there are no providers in the district
                     out.println("district has no provider");
-                } else {
+                } else { // if there are providers in the district
                     out.printf("number of providers: %d%nnumber of completed deliveries: %d%naverage order value: %f",
                             info.getNumProvider(), info.getNumDeliveries(), info.getAverageOrderValue());
                 }
                 out.flush();
             });
         });
-        mainMenu.registerOption("2", "create new provider", () -> {
+        // exercise 1b
+        mainMenu.registerOption("2", "create new provider", () -> { // add create option to main menu
+            // when the option 2 is selected
             out.println("id? ");
             out.flush();
-            int id = in.nextInt();
+            int id = in.nextInt(); // get id from console
             out.println("name? ");
             out.flush();
-            String name = in.next();
+            String name = in.next(); // get name from console
 //            connector.createProvider(id, name);
-            connector.createProviderProcedure(id, name);
+            
+            // exercise 2b
+            connector.createProviderProcedure(id, name); // call the database procedure for creating a provider
         });
-        mainMenu.registerOption("3", "change district of provider", () -> {
+        // exercise 1b
+        mainMenu.registerOption("3", "change district of provider", () -> { // add update option to main menu
+            // when the option 3 is selected
             out.println("provider to change");
 
-            choice(connector.getProviders(), Provider::getNachname, provider -> {
+            choice(connector.getProviders(), Provider::getNachname, provider -> { // let the user choose a provider
                 out.printf("change district of '%s' to%n", provider.getNachname());
-                choice(connector.getDistricts(), District::getPlz, district -> {
+                choice(connector.getDistricts(), District::getPlz, district -> { // let the user choose a district to update it to
 //                    connector.updateDistrict(provider.getId(), district.getId());
-                    connector.updateDistrictProcedure(provider.getId(), district.getId());
+                    
+                    // exercise 2a
+                    connector.updateDistrictProcedure(provider.getId(), district.getId()); // call th database procedure for updating
+
                     out.printf("district of '%s' changed to '%s'%n", provider.getNachname(), district.getPlz());
                 });
             });
         });
 
-        mainMenu.show();
+        mainMenu.show(); // show the menu
     }
 
     /**
@@ -91,14 +101,15 @@ public class CLI {
      * @param <T> The type of data to choose from
      */
     private static <T> void choice(List<T> list, Function<T, String> description, Consumer<T> choice) {
-        Menu choiceMenu = new Menu();
+        Menu choiceMenu = new Menu(); // create a new menu
 
-        for (int j = 0; j < list.size(); j++) {
+        for (int j = 0; j < list.size(); j++) { // for each item in the provided in the list
             T t = list.get(j);
 
+            // register a option with the menu
             choiceMenu.registerOption("" + (j + 1), description.apply(t), () -> choice.accept(t));
         }
 
-        choiceMenu.show();
+        choiceMenu.show(); // show the creted menu
     }
 }
