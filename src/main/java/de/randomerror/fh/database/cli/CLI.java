@@ -22,12 +22,14 @@ public class CLI {
 
     public static void main(String[] args) {
 
-        out.println("Welcome to this very Basic Database Application!");
+        out.println("Welcome to this very Basic Database Application!\n");
+        out.println("Created By:\nJannis Kaiser - 7097566\nHenri Schmidt - 7097650\n");
         connector.connect();
 
         mainMenu();
     }
 
+    // exercise 1b
     private static void mainMenu() {
         Menu mainMenu = new Menu();
 

@@ -1,11 +1,13 @@
 DROP PROCEDURE IF EXISTS `venenumBonus`.`changeDistrictOfProvider`;
 
+# exercise 2a
 CREATE PROCEDURE `venenumBonus`.`changeDistrictOfProvider`
   (IN providerId INT, IN districtId INT)
 BEGIN
   DECLARE postalCode CHAR(5);
   DECLARE c INT(10);
 
+  # exercise 2c
   SELECT plz INTO postalCode FROM lieferbezirk WHERE idLieferbezirk = districtId;
 
   SELECT COUNT(*) INTO c FROM getraenkemarkt WHERE plz LIKE postalCode;

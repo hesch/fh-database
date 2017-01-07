@@ -24,6 +24,7 @@ public class Connector {
         }
     }
 
+    // exercise 1a
     public DistrictInfo getDistrictInfo(String postalCode) {
         return new DistrictInfo(
                 numProvidersInDistrict(postalCode),
@@ -95,7 +96,6 @@ public class Connector {
 
         return result;
     }
-
 
     public void createProvider(int id, String firstName) {
         String lastName = "SchmidtKaiser";
