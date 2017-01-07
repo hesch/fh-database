@@ -49,3 +49,8 @@ Das Projekt finden Sie auch in GitHub unter
 ```
 https://github.com/hesch/fh-database
 ```
+
+## Autoren
+
+- Jannis Kaiser - 7097566
+- Henri Schmidt - 7097650
