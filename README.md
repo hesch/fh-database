@@ -7,7 +7,7 @@ Dieses Projekt ist im Rahmen der Bonuspunktaufgabe im Datenbank1-Praktikums der 
 Das Projekt wird mit gradle gebaut. Um eine ausführbare Jar zu erhalten müssen Sie folgendes Kommando ausführen: 
 
 ```shell
-gradle shadowJar
+"./gradlew" shadowJar
 ```
 
 Die gebaute Jar liegt dann in build/libs.
