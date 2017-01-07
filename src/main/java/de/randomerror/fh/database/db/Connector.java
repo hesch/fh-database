@@ -71,7 +71,8 @@ public class Connector {
                 "JOIN venenumbonus.artikel ON Artikel_idArtikel = idArtikel " +
                 "JOIN venenumbonus.bestellung ON Bestellung_idBestellung = idBestellung " +
                 "JOIN venenumbonus.getraenkemarkt ON Getraenkemarkt_idGetraenkemarkt = idGetraenkemarkt " +
-                "WHERE plz LIKE ?) a;";
+                "WHERE plz LIKE ? " +
+                "AND bestellung.bestellstatus LIKE 'abgeschlossen') a;";
         try (PreparedStatement s = conn.prepareStatement(query)) {
             s.setString(1, postalCode);
             ResultSet set = s.executeQuery();
