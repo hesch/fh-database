@@ -1,7 +1,10 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '1.2.4'
+}
+
 group 'de.randomerror.fh.database'
 version '1.0-SNAPSHOT'
-
-apply plugin: 'java'
 
 repositories {
     jcenter()
@@ -9,7 +12,13 @@ repositories {
 
 dependencies {
     compile 'mysql:mysql-connector-java:6.0.5'
-    compile group: 'org.projectlombok', name: 'lombok', version: '1.16.12'
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.16.12'
     testCompile group: 'junit', name: 'junit', version: '4.11'
     testCompile 'org.mockito:mockito-core:2.5.0'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'de.randomerror.fh.database.cli.CLI'
+    }
 }
